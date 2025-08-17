@@ -1,23 +1,36 @@
 package org.skypro.skyshop.model.product;
 
-public class Product {
-    private String name;
-    int price;
+import org.skypro.skyshop.model.search.Searchable;
 
-    public Product(String name, int price) {
+import java.util.UUID;
+
+public abstract class Product implements Searchable {
+    private String name;
+    private int price;
+    private final UUID id;
+
+    public Product(UUID id, String name, int price) {
         /**
          * Метод isBlank() используется для проверки, является ли строка пустой или нет. Пустая строка или строка, содержащая только пробелы, считается пустой.
          */
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Название продукта не может быть пустым, состоять только из пробелов или быть null.");
         }
+        if (id == null){
+            throw new IllegalArgumentException("ID не может быть null.");
+        }
         this.name = name;
         this.price = price;
+        this.id = id;
+    }
+//    public Product(String name) {
+//    }
+    @Override
+    public UUID getId() {
+        return id;
     }
 
-    public Product(String name) {
-    }
-
+    @Override
     public String getName() {
         return name;
     }
@@ -28,10 +41,15 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{ " + name + ": " + " стоимость = " + price + '}';
+        return "Product{ id= " + id + "наименование = " + name + ": " + " стоимость = " + price + '}';
     }
 
     public boolean isSpecial() {
         return true;
+    }
+
+    @Override
+    public String getSearchTerm() {
+        return name;
     }
 }
