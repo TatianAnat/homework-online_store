@@ -1,7 +1,9 @@
 package org.skypro.skyshop.model.service;
 
 import org.skypro.skyshop.model.article.Article;
+import org.skypro.skyshop.model.product.DiscountedProduct;
 import org.skypro.skyshop.model.product.Product;
+import org.skypro.skyshop.model.product.SimpleProduct;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
