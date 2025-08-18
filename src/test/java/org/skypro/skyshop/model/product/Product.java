@@ -1,28 +1,31 @@
 package org.skypro.skyshop.model.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.skypro.skyshop.model.search.Searchable;
+
 import java.util.UUID;
 
 public abstract class Product implements Searchable {
-    private final UUID id;
     private String name;
     private int price;
+    private final UUID id;
 
-    /**
-     * Основной конструктор с UUID id, названием и ценой
-      */
     public Product(UUID id, String name, int price) {
+        /**
+         * Метод isBlank() используется для проверки, является ли строка пустой или нет. Пустая строка или строка, содержащая только пробелы, считается пустой.
+         */
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Название продукта не может быть пустым, состоять только из пробелов или быть null.");
         }
-        if (id == null) {
+        if (id == null){
             throw new IllegalArgumentException("ID не может быть null.");
         }
-        this.id = id;
         this.name = name;
         this.price = price;
+        this.id = id;
     }
-
+//    public Product(String name) {
+//    }
     @Override
     public UUID getId() {
         return id;
@@ -39,16 +42,16 @@ public abstract class Product implements Searchable {
 
     @Override
     public String toString() {
-        return "Product{id=" + id + ", name='" + name + "', price=" + price + "}";
+        return "Product{ id= " + id + "наименование = " + name + ": " + " стоимость = " + price + '}';
     }
 
     public boolean isSpecial() {
         return true;
     }
 
+    //@JsonIgnore
     @Override
     public String getSearchTerm() {
         return name;
     }
-
 }
