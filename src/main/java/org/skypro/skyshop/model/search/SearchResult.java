@@ -1,7 +1,9 @@
 package org.skypro.skyshop.model.search;
 
 public class SearchResult {
-
+    /**
+     * final - запрет наследования
+     */
     private final String id;
     private final String name;
     private final String contentType;

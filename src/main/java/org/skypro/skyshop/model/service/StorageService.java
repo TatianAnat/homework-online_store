@@ -4,9 +4,12 @@ import org.skypro.skyshop.model.article.Article;
 import org.skypro.skyshop.model.product.DiscountedProduct;
 import org.skypro.skyshop.model.product.Product;
 import org.skypro.skyshop.model.product.SimpleProduct;
+import org.skypro.skyshop.model.search.Searchable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class StorageService {
@@ -30,6 +33,11 @@ public class StorageService {
      */
     public Collection<Product> getAllProducts() {
         return Collections.unmodifiableCollection(productStorage.values());
+    }
+
+    public Collection<Searchable> getAllSearchable() {
+        return Stream.concat(articleStorage.values().stream(), productStorage.values().stream())
+                .collect(Collectors.toList());
     }
     /**
      * приватный метод инициализации тестовых данных
