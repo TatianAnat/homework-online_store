@@ -25,10 +25,6 @@ public class SearchService {
      * @return коллекция результатов поиска
      */
     public Collection<SearchResult> search(String query) {
-        if (query == null || query.isBlank()) {
-            return java.util.Collections.emptyList();
-        }
-
         String queryLower = query.toLowerCase();
 
         return storageService.getAllSearchable().stream()

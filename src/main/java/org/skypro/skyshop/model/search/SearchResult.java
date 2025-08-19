@@ -1,6 +1,6 @@
 package org.skypro.skyshop.model.search;
 
-public class SearchResult {
+public final class SearchResult {
     /**
      * final - запрет наследования
      */
@@ -8,7 +8,7 @@ public class SearchResult {
     private final String name;
     private final String contentType;
 
-    public SearchResult(String id, String name, String contentType) {
+    private SearchResult(String id, String name, String contentType) {
         this.id = id;
         this.name = name;
         this.contentType = contentType;
@@ -27,13 +27,10 @@ public class SearchResult {
     }
 
     /**
-     * создаём SearchResult из Searchable
+     * создаём SearchResult из Searchable. Id должен быть не пустой
      */
     public static SearchResult fromSearchable(Searchable item) {
-        String id = item.getId() != null ? item.getId().toString() : null;
-        String name = item.getName();
-
-        String contentType = item.getClass().getSimpleName();
-        return new SearchResult(id,name,contentType);
+        return new SearchResult(item.getId().toString(), item.getName(), item.getContentType());
     }
-}
+           }
+

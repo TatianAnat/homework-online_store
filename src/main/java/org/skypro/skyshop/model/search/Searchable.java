@@ -8,6 +8,8 @@ public interface Searchable {
     String getName();
 
     UUID getId();
+
+    String getContentType();
 }
 
 
