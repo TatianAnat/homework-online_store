@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
+@RequestMapping("skyshop")
 @RestController
 public class ShopController {
 
