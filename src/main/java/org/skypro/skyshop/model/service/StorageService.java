@@ -16,14 +16,20 @@ public class StorageService {
 
     private final Map<UUID, Product> productStorage;
     private final Map<UUID, Article> articleStorage;
+    private final Map<UUID, Product> availableProducts;
 
     public StorageService() {
         productStorage = new HashMap<>();
         articleStorage = new HashMap<>();
+        availableProducts = new HashMap<>();
         initTestData();
     }
+
+    public Optional<Product> getProductById(UUID id) {
+        return Optional.ofNullable(availableProducts.get(id));
+    }
     /**
-     * возвращает коллекцию всехстатей
+     * возвращает коллекцию всех статей
      */
     public Collection<Article> getAllArticles(){
         return Collections.unmodifiableCollection(articleStorage.values());
