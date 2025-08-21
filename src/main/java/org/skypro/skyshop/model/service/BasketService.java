@@ -7,6 +7,7 @@ import org.skypro.skyshop.model.product.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -33,8 +34,19 @@ public class BasketService {
      * возвращает состояние корзины пользователя с полным описанием товаров и общей стоимостью
      */
     public UserBasket getUserBasket() {
+        /**
+         * получаем мапу товаров из компонента корзины (UUID -> количество)
+         */
+        Map <UUID, Integer> productsInBasket = productBasket.getProducts();
+/**
+ * // Преобразуем мапу в список BasketItem: для каждого id ищем Product
+ * и формируем BasketItem с количеством
+ */
         List<BasketItem> items = productBasket.getProducts().entrySet().stream()
                 .map(entry -> {
+                    /**
+                     * Получаем объект Product по id из StorageService, выбрасываем исключение, если не найден
+                     */
                     Product product = storageService.getProductById(entry.getKey())
                             .orElseThrow(() -> new IllegalArgumentException("Продукт с таким ID не найден"));
                     return new BasketItem(product,entry.getValue());
