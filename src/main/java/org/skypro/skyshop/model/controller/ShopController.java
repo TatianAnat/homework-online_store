@@ -2,11 +2,14 @@ package org.skypro.skyshop.model.controller;
 
 import org.skypro.skyshop.model.article.Article;
 import org.skypro.skyshop.model.basket.UserBasket;
+import org.skypro.skyshop.model.exceptions.NoSuchProductException;
 import org.skypro.skyshop.model.product.Product;
 import org.skypro.skyshop.model.search.SearchResult;
 import org.skypro.skyshop.model.service.BasketService;
 import org.skypro.skyshop.model.service.SearchService;
 import org.skypro.skyshop.model.service.StorageService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -46,9 +49,13 @@ public class ShopController {
      * Метод добавления продукта в корзину
      */
     @GetMapping("/basket/{id}")
-    public String addProduct(@PathVariable("id") UUID id) {
-        basketService.addProductBasket(id);
-        return "Продукт успешно добавлен";
+    public ResponseEntity<String> addProduct(@PathVariable("id") UUID id) {
+        try {
+            basketService.addProductBasket(id);
+            return ResponseEntity.ok("Продукт успешно добавлен");
+        } catch (NoSuchProductException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     /**
