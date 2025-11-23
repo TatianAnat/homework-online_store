@@ -51,4 +51,7 @@ public class BasketService {
                 .collect(Collectors.toList());
         return new UserBasket(items);
     }
+
+    public void addProductToBasket(UUID fakeId) {
+    }
 }
