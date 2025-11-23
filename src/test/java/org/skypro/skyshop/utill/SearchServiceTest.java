@@ -4,11 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.skypro.skyshop.model.article.Article;
 import org.skypro.skyshop.model.product.SimpleProduct;
+import org.skypro.skyshop.model.search.SearchResult;
 import org.skypro.skyshop.model.search.Searchable;
 import org.skypro.skyshop.model.service.SearchService;
 import org.skypro.skyshop.model.service.StorageService;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -31,28 +33,25 @@ public class SearchServiceTest {
 	поиск при отсутствии объектов в StorageService
 	 */
 	@Test
-	public void testSearch_NoObjectsInStorage_ReturnsEmpty{
-
+	public void testSearch_NoObjectsInStorage_ReturnsEmpty() {
 		when(storageServiceMock.getAllSearchable()).thenReturn(Collections.emptyList());
-
-		Searchable[] results = searchService.search("тест");
+		Collection<SearchResult> results = searchService.search("тест");
 		assertNotNull(results);
-		assertEquals(0,countNonNull(results));
+		assertEquals(0, results.size());
 	}
 	/**
 	поиск, когда объекты есть, но подходящих нет
 	 */
 	@Test
-	public void testSearch_ObjectsExistButNoMatch_ReturnsEmpty{
+	public void testSearch_ObjectsExistButNoMatch_ReturnsEmpty() {
 		List<Searchable> objects = List.of(
 				new SimpleProduct(UUID.randomUUID(),"Телефон",10000),
 				new Article(UUID.randomUUID(),"Газета")
 		);
 		when(storageServiceMock.getAllSearchable()).thenReturn(objects);
-
-		Searchable[] results = searchService.search("ноутбук");
+		Collection<SearchResult> results = searchService.search("ноутбук");
 		assertNotNull(results);
-		assertEquals(0,countNonNull(results));
+		assertEquals(0, results.size());
 	}
 	/**
 	 * поиск с подходящими объектами
@@ -62,13 +61,11 @@ public class SearchServiceTest {
 		Article article = new Article(UUID.randomUUID(), "Смартфон с хорошей камерой");
 		SimpleProduct product = new SimpleProduct(UUID.randomUUID(),"Смартфон Samsung", 20000);
 		List<Searchable> objects = List.of(article,product);
-		when(storageServiceMock.getAllSearchable().thenReturn(objects);
-
-		Searchable[] results = searchService.search("Смартфон");
+		when(storageServiceMock.getAllSearchable()).thenReturn(objects);
+		Collection<SearchResult> results = searchService.search("Смартфон");
 		assertNotNull(results);
-
-		assertTrue(containsSearchTerm(results,"Смартфон"));
-		assertTrue(results.length <= 5);
+		assertTrue(results.size() <= 5);
+		assertTrue(results.stream().anyMatch(r -> r.getSearchable().getSearchTerm().contains("Смартфон")));
 	}
 	/**
 	 * Вспомогательные методы

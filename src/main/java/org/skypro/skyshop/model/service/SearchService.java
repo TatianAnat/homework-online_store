@@ -5,6 +5,7 @@ import org.skypro.skyshop.model.search.SearchResult;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * с помощью аннотации @Service указываем Spring зарегистрировать этот класс как бин сервиса
@@ -28,6 +29,8 @@ public class SearchService {
         return storageService.getAllSearchable().stream()
                 .filter(item -> item.getName() != null && item.getName().toLowerCase().contains(queryLower))
                 .limit(5)
-                .toArray(Searchable[]::new);
+                .map(SearchResult::fromSearchable)
+                .collect(Collectors.toList());
     }
+
 }

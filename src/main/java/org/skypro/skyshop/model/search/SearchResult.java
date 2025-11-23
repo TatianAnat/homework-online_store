@@ -32,4 +32,7 @@ public final class SearchResult {
         return new SearchResult(item.getId().toString(), item.getName(),item.getContentType());
     }
 
+    public Searchable getSearchable() {
+        return null;
+    }
 }
