@@ -44,13 +44,19 @@ public class BasketServiceTest {
 	public void addExistingProductCallsAddProduct() {
 		UUID productId = UUID.randomUUID();
 		Product product = mock(Product.class);
+		/**
+		 * Мокаем StorageService чтобы вернуть продукт по ID
+		 */
 		when(storageServiceMock.getProductById(productId)).thenReturn(Optional.of(product));
-
+		/**
+		 * Вызываем метод сервиса корзины, который должен добавить продукт
+		 */
 		basketService.addProductToBasket(productId);
-
+		/**
+		 * Проверяем, что addProduct(UUID) вызван ровно 1 раз с нужным UUID у productBasketMock
+		 */
 		verify(productBasketMock, times(1)).addProduct(productId);
 	}
-
 	/**
 	 * Метод getUserBasket возвращает пустую корзину если productBasket пуст
 	 */
