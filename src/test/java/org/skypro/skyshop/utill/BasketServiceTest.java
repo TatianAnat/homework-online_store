@@ -35,7 +35,9 @@ public class BasketServiceTest {
 		UUID fakeId = UUID.randomUUID();
 		when(storageServiceMock.getProductById(fakeId)).thenReturn(Optional.empty());
 
-		assertThrows(RuntimeException.class, () -> basketService.addProductToBasket(fakeId));
+		assertThrows(RuntimeException.class, () -> {
+			basketService.addProductToBasket(fakeId);
+		});
 	}
 	/**
 	 * Добавление существующего товара вызывает метод addProduct у productBasket

@@ -52,6 +52,9 @@ public class BasketService {
         return new UserBasket(items);
     }
 
-    public void addProductToBasket(UUID fakeId) {
+    public void addProductToBasket(UUID productId) {
+        Product product = storageService.getProductById(productId)
+                .orElseThrow(() -> new RuntimeException("Продукт не найден"));
+        productBasket.addProduct(productId);
     }
 }
